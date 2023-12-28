@@ -42,6 +42,13 @@ var exp = (function() {
     const pages = {
         prePractice: [
             `<div class='parent'>
+                <p><strong>What makes some activities more immersive and engaging than others?</strong></p>
+                <p>We're interested in why people feel effortlessly engaged in some activities (such as engrossing video games), but struggle to focus on other activities.</p>
+                <p>To help us, you'll play two rounds of a game called <b>Dot Detective</b>. After each round, you'll report how immersed and engaged you felt.</p>
+                <p>To learn about and play Dot Detective, continue to the next screen.</p></p>
+            </div>`,
+
+            `<div class='parent'>
                 <p>Welcome to Dot Detective!</p>
                 <p>In Dot Detective, you'll see a series of grids. Each grid will contain <span style="color: red">red</span> dots and <span style="color: blue">blue</span> dots. The number of dots will change over time.</p>
                 <p>Sometimes, the average number of <span style="color: red">red</span> dots will be greater than the average number of <span style="color: blue">blue</span> dots.</p>
