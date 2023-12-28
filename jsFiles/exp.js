@@ -423,9 +423,10 @@ var exp = (function() {
         const getReady = {
             type: jsPsychHtmlKeyboardResponse,
             stimulus: function() {
-                return (trialIdx == 0 && timed) ? '<span style="font-size:70px">Get Ready!</span>' : '';
+                return (trialIdx == 0 && timed) ? '<div class="feedback-container"><div class="streak-text">Get Ready!</div></div>' : '';
             },
             choices: "NO_KEYS",
+            prompt: '<p>On average, are there more <span style="color: red">red</span> dots or <span style="color: blue">blue</span> dots?</p><p>Press <span style="color: red">"e" for red</span> and <span style="color: blue">"i" for blue</span>.</p>',
             trial_duration: function() {
                 return (trialIdx == 0 && timed) ? 3000 : 0;
             },
@@ -472,6 +473,7 @@ var exp = (function() {
                     return `<div class="feedback-container"> <div class="loss-text">Miss!</div></div>`;
                 };
             },
+            prompt: '<p>On average, are there more <span style="color: red">red</span> dots or <span style="color: blue">blue</span> dots?</p><p>Press <span style="color: red">"e" for red</span> and <span style="color: blue">"i" for blue</span>.</p>',
             choices: "NO_KEYS",
             trial_duration: 1000,
             data: {round: round, drift: jsPsych.timelineVariable('drift'), blockType: jsPsych.timelineVariable('blockType'), trialType: "feedback"},
@@ -528,6 +530,7 @@ var exp = (function() {
             },
             choices: "NO_KEYS",
             trial_duration: 2000,
+            prompt: '<p>On average, are there more <span style="color: red">red</span> dots or <span style="color: blue">blue</span> dots?</p><p>Press <span style="color: red">"e" for red</span> and <span style="color: blue">"i" for blue</span>.</p>',
             data: {round: round, drift: jsPsych.timelineVariable('drift'), blockType: jsPsych.timelineVariable('blockType'), trialType: "tokens"},
             on_finish: function(data) {
                 if (tokenArray_win.length == 0) {
