@@ -34,7 +34,7 @@ const dmPsych = (function() {
   obj.filename = `${subject_id}.csv`;
 
   // define completion code for Prolific
-  const completionCode = "5665C3A9";
+  const completionCode = "C1B3XSBB";
 
   // track fps
   let frames = 0, tic = performance.now(), fpsAdjust;
