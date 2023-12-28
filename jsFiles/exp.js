@@ -3,33 +3,33 @@ var exp = (function() {
 
     var p = {};
 
+    drawSignal = Math.floor(Math.random() * 2);
+    drawGameType = Math.floor(Math.random() * 2);
+
     const settings = {
         responseKeys: ['e', 'i'],
-        signal: [10, -10, 100, -100],
+        gameType: ['streak', 'bern'][drawGameType],
+        signal: [[10, 40], [40, 10]][drawSignal],
+        harderOrEasier: ['less', 'more'][drawSignal],
+        moreOrLess: ['more', 'less'][drawSignal],
+        practiceSignal: 50,
+        nTestTrials: 30,
+        nPracticeTrials: 5,
         noise: 10,
         nDots: 100,
         nRounds: 5,
         breakLength: 10,
         bonusAmount: 2,
-        pReward: [[1, 1, .7], [1, .7, 1]][Math.floor(Math.random() * 2)],
     };
 
-    const bonus_html =  `<div class="outcome-container">
-                            <div class="trophy"><img src="./img/coins.jpg" height="350px"></div>
-                            <div class="your-score"><span style="color:green">+${settings.bonusAmount} Cents!</span></div>
-                        </div>`;
-
-    const noBonus_html = `<div class="outcome-container">
-                            <div class="flanker-text" style="color:red"></div>
-                            <div class="your-score"><span style="color:grey">+0 Cents</span></div>
-                        </div>`
+    console.log(settings.gameType, settings.signal);
 
     jsPsych.data.addProperties({
-        signal: settings.signal,
+        gameType: settings.gameType,
+        signal_1: settings.signal[0],
+        signal_2: settings.signal[1],
         noise: settings.noise,
         nDots: settings.nDots,
-        pReward_1: settings.pReward[0],
-        pReward_2: settings.pReward[1],
     });
 
 
@@ -50,120 +50,290 @@ var exp = (function() {
             </div>`,
 
             `<div class='parent'>
-                <p>While playing dot detective, you'll notice that some trials are easier than others; sometimes it will be easy to detect whether there are 
-                more <span style="color: red">red dots</span> or <span style="color: blue">blue dots</span>, and sometimes it will be very difficult.</p>
+                <p>It can be difficult to detect whether there are more <span style="color: red">red dots</span> or <span style="color: blue">blue dots</span>.</p>
 
                 <p><strong>No matter how difficult it seems, there is always a correct answer!</strong></p>
 
                 <p>Even if the number of <span style="color: red">red dots</span> or <span style="color: blue">blue dots</span>
-                appears very similar, one of the colors is always more numerous on average.</p>
+                appears very similar, one of the colors is more numerous on average.</p>
+            </div>`,
+
+            `<div class='parent'>
+                <p>If you respond correctly before time runs out, you'll see this message:</p>
+                <div class="feedback-container-inst">
+                    <div class="win-text-inst">Correct!</div>
+                </div>
+            </div>`,
+
+            `<div class='parent'>
+                <p>If you respond incorrectly or too slowly, you'll see this message:</p>
+                <div class="feedback-container-inst">
+                    <div class="loss-text-inst">Miss!</div>
+                </div>
             </div>`,
 
             `<div class='parent'>
                 <p>To get a feel for Dot Detective, you'll complete a series of practice rounds.</p>
-                <p>Continue when you are ready to begin practicing Dot Detective.</p>
+                <p>Continue when you're ready to practice.</p>
             </div>`],
 
         postPractice: [
             `<div class='parent'>
-                <p>Practice is now complete!</p>
-                <p>Next, you'll play two rounds of Dot Detective.</p>
-                <p><strong>In both rounds, you'll be able to earn bonus money.</strong></p>
-                <p>All of the bonus money you earn during Dot Detective will be delivered to you within 1 week after completion. To learn how to earn bonus money in Dot Detective, continue to the next page.</p>
+                <p>Good job!</p>
+                <p>During Dot Detective, you'll only have <b>1 second</b> to respond. 
+                Therefore, you'll need to detect whether there are more <span style="color: red">red dots</span> or <span style="color: blue">blue dots</span> <b>as fast as possible</b>!</p>
+                <p>To get a feel for playing Dot Detective under time pressure, you'll complete another set of practice rounds. This time, you'll have just 1 second to respond.</p>
+                <p>Continue when you're ready to practice responding under time pressure.</p>
             </div>`],
 
-        preRound_1: [`<div class='parent'>
-                <p>In the first round of Dot Detective, <span style="font-weight:bold; color:green">correct</span> responses are rewarded with bonus money <span style="font-weight:bold; color:green">${settings.pReward[1] * 100}%</span> of the time. </p>
-                <p>In other words: for each <span style="font-weight:bold; color:green">correct</span> response, you have a <span style="font-weight:bold; color:green">${settings.pReward[1] * 100}%</span> chance of earning bonus money.</p>
+        howToEarn_bern: [
+            `<div class='parent'>
+                <p>Practice is now complete.</p>
+                <p>During Dot Detective, you'll be competing for a chance to win a <b>$100.00 bonus prize</b>.</p>
+                <p>Specifically, you'll earn tokens. The tokens you earn will be entered into a lottery, and if one of your tokens is drawn, you'll win $100.00. To maximize your chances of winning a $100.00 bonus, you'll need to earn as many tokens as possible.</p>
+                <p>Continue to learn how to earn tokens!</p>
             </div>`,
 
             `<div class='parent'>
-                <p></strong>Incorrect</strong> response are rewarded with bonus money <strong>${100 - (settings.pReward[1] * 100)}%</strong> of the time.</p>
-                <p>In other words: For each <strong>incorrect</strong> response, you have a <strong>${100 - (settings.pReward[1] * 100)}%</strong> chance of earning bonus money.</p>
+                <p>In Dot Detective, players earn 10 tokens for every correct answer.</p>
+                <p>Players earn 0 tokens for every incorrect answer.</p>
             </div>`,
 
             `<div class='parent'>
-                <p>Each bonus is worth ${settings.bonusAmount} cents.</p>
-                <p>Immediately after each response, you'll see whether or not you won a ${settings.bonusAmount}-cent bonus.</p>
+                <p>If you respond correctly, you'll see this message indicating that you earned 10 tokens.</p> 
+                <div class="feedback-container-inst">
+                    <div class="win-text-inst">+10 Tokens</div>
+                </div>
             </div>`,
 
             `<div class='parent'>
-                <p>If you win a ${settings.bonusAmount}-cent bonus, you'll see this image immediately after your response:</p>
-                ${bonus_html}
+                <p>If you respond incorrectly, you'll see this message indicating that you earned 0 tokens.</p> 
+                <div class="feedback-container-inst">
+                    <div class="loss-text-inst">+0 Tokens</div>
+                </div>
             </div>`,
 
             `<div class='parent'>
-                <p>Otherwise, you'll see this image immediately after your response:</p>
-                ${noBonus_html}
+                <p>In addition to earning tokens through your performance, you can gain or lose tokens randomly.
+                Specifically, at the end of each round, you have a 20% chance of winning 5 extra tokens, and a 20% chance of losing 5 tokens.</p>
+            </div>`,
+
+            `<div class='parent'>
+                <p>If you see "+5 Bonus," this means you randomly won 5 extra tokens. For example, this is what you'd see if you randomly won 5 extra tokens after a correct response:</p>
+                <div class="feedback-container-inst">
+                    <div class="win-text-inst">+10 Tokens</div>
+                    <div class="plus-text-inst">+5 Bonus</div>
+                </div>
+            </div>`,
+
+            `<div class='parent'>
+                <p>This is what you'd see if you randomly won 5 extra tokens after an incorrect response:</p>
+                <div class="feedback-container-inst">
+                    <div class="loss-text-inst">+0 Tokens</div>
+                    <div class="plus-text-inst">+5 Bonus</div>
+                </div>
+            </div>`,
+
+            `<div class='parent'>
+                <p>If you see "-5 Loss," this means you randomly lost 5 tokens. For example, this is what you'd see if you randomly lost 5 tokens after a correct response:</p>
+                <div class="feedback-container-inst">
+                    <div class="win-text-inst">+10 Tokens</div>
+                    <div class="minus-text-inst">-5 Loss</div>
+                </div>
+            </div>`,
+
+            `<div class='parent'>
+                <p>This is what you'd see if you randomly lost 5 tokens after an incorrect response:</p>
+                <div class="feedback-container-inst">
+                    <div class="loss-text-inst">+0 Tokens</div>
+                    <div class="minus-text-inst">-5 Loss</div>
+                </div>
             </div>`],
 
-        postRound_1: [
+        howToEarn_streak: [
             `<div class='parent'>
-                <p>Thank you for playing the first round of Dot Detective!</p>
-                <p>Next, you'll play the second round of Dot Detective.</p>
+                <p>Practice is now complete.</p>
+                <p>Next, you'll play Dot Detective. During Dot Detective, you'll be competing for a chance to win a <b>$100.00 bonus prize</b>.</p>
+                <p>Specifically, you'll earn tokens. The tokens you earn will be entered into a lottery, and if one of your tokens is drawn, you'll win $100.00. To maximize your chances of winning a $100.00 bonus, you'll need to earn as many tokens as possible.</p>
+                <p>Continue to learn how to earn tokens!</p>
+            </div>`,
+
+            `<div class='parent'>
+                <p>In Dot Detective, players earn tokens for streaks of correct responses.</p>
+                <p>Specifically, you'll earn 10 tokens for every correct response you make in a row.</p>
+                <p>For example, a streak of 2 consecutive correct responses is worth 20 tokens, 
+                a streak of 3 consecutive correct responses is worth 30 tokens, and so on.</p>
+            </div>`,
+
+            `<div class='parent'>
+                <p>After each correct response, you'll see the length of your current streak. For example, after three correct responses in a row, you'd see the following:
+                <div class="feedback-container-inst">
+                    <div class="streak-text-inst"><p>Current Streak:</p><p>3</p></div>
+                </div>
+            </div>`,
+
+            `<div class='parent'>
+                <p>Each time you lose, you'll see how many tokens you earned from your streak.</p> 
+            </div>`,
+
+            `<div class='parent'>
+                <p>For example, if you lose after achieving a streak of three, you'll see this message indicating that you earned 30 tokens.</p> 
+                <div class="feedback-container-inst">
+                    <div class="final-streak-text-inst"><p>Final Streak:</p><p>3</p></div>
+                    <div class="win-text-inst">+30 Tokens</div>
+                </div>
+            </div>`,
+
+            `<div class='parent'>
+                <p>If you lose after failing to start a streak, you'll see this message indicating that you earned 0 tokens.</p> 
+                <div class="feedback-container-inst">
+                    <div class="final-streak-text-inst"><p>Final Streak:</p><p>0</p></div>
+                    <div class="loss-text-inst">+0 Tokens</div>
+                </div>
+            </div>`,
+
+            `<div class='parent'>
+                <p>In addition to earning tokens through your performance, you can gain or lose tokens randomly.
+                Specifically, at the end of each round, you have a 20% chance of winning 5 extra tokens, and a 20% chance of losing 5 tokens.</p>
+            </div>`,
+
+            `<div class='parent'>
+                <p>If you see "+5 Bonus," this means you randomly won 5 extra tokens. For example, this is what you'd see if you randomly won 5 extra tokens after a streak of 3:</p>
+                <div class="feedback-container-inst">
+                    <div class="final-streak-text-inst"><p>Final Streak:</p><p>3</p></div>
+                    <div class="win-text-inst">+30 Tokens</div>
+                    <div class="plus-text-inst">+5 Bonus</div>
+                </div>
+            </div>`,
+
+            `<div class='parent'>
+                <p>This is what you'd see if you randomly won 5 extra tokens after a streak of 0:</p>
+                <div class="feedback-container-inst">
+                    <div class="final-streak-text-inst"><p>Final Streak:</p><p>0</p></div>
+                    <div class="loss-text-inst">+0 Tokens</div>
+                    <div class="plus-text-inst">+5 Bonus</div>
+                </div>
+            </div>`,
+
+            `<div class='parent'>
+                <p>If you see "-5 Loss," this means you randomly lost 5 tokens. For example, this is what you'd see if you randomly lost 5 tokens after a streak of 3:</p>
+                <div class="feedback-container-inst">
+                    <div class="final-streak-text-inst"><p>Final Streak:</p><p>3</p></div>
+                    <div class="win-text-inst">+30 Tokens</div>
+                    <div class="minus-text-inst">-5 Loss</div>
+                </div>
+            </div>`,
+
+            `<div class='parent'>
+                <p>This is what you'd see if you randomly lost 5 tokens after a streak of 0:</p>
+                <div class="feedback-container-inst">
+                    <div class="final-streak-text-inst"><p>Final Streak:</p><p>0</p></div>
+                    <div class="loss-text-inst">+0 Tokens</div>
+                    <div class="minus-text-inst">-5 Loss</div>
+                </div>
             </div>`],
 
         preRound_2: [
             `<div class='parent'>
-                <p>The second round of Dot Detective is just like the first round, with two exceptions...</p>
+                <p>The first round of Dot Detective is now complete! Next, you'll play the second round of Dot Detective.</p>
+                <p>To learn about the second round of Dot Detective, continue to the next screen.</p>
             </div>`,
 
             `<div class='parent'>
-                <p>First, <span style="font-weight:bold; color:green">correct</span> responses are rewarded with bonus money <span style="font-weight:bold; color:green">${settings.pReward[2] * 100}%</span> of the time. </p>
-                <p>In other words: for each <span style="font-weight:bold; color:green">correct</span> response, you have a <span style="font-weight:bold; color:green">${settings.pReward[2] * 100}%</span> chance of earning bonus money.</p>
-            </div>`,
-
-            `<div class='parent'>
-                <p>In addition, <strong>incorrect</strong> responses are rewarded with bonus money <strong>${100 - (settings.pReward[2] * 100)}%</strong> of the time.</p>
-                <p>In other words: For each <strong>incorrect</strong> response, you have a <strong>${100 - (settings.pReward[2] * 100)}%</strong> chance of earning bonus money.</p>
-            </div>`,],
+                <p>The second round of Dot Detective is just like the first round, with one exception: it is designed to be ${settings.harderOrEasier} difficult.
+                Specifically, most players respond correctly ${settings.moreOrLess} often in the second version compared to the first version.</p>
+            </div>`],
 
         postTask: [
             `<div class='parent'>
                 <p>Both rounds of Dot Detective are now complete!</p>
-                <p>To finish this study, please continue to complete a few surveys.</p>
+                <p>To finish this study, please continue to answer a few final questions.</p>
             </div>`]
     };
 
-    function MakeAttnChk(settings, round) {
+    function MakeAttnChk(round, gameType) {
 
-        let firstOrSecond;
-        (round == 1) ? firstOrSecond = 'first' : firstOrSecond = 'second';
+        const prompt2 = (gameType == "bern") ? "How many tokens will you win after each correct response?" : "If you respond incorrectly after achieving a streak of 5, how many tokens would you win?";
+        const prompt3 = (gameType == "bern") ? "How many tokens will you win after each incorrect response?" : "If you respond incorrectly after achieving a streak of 0, how many tokens would you win?";
+        const prompt4 = (gameType == "bern") ? "After each response, what are your chances of randomly winning 5 extra tokens?" : "After each streak, what are your chances of randomly winning 5 extra tokens?";
+        const prompt5 = (gameType == "bern") ? "After each response, what are your chances of randomly losing 5 tokens?" : "After each streak, what are your chances of randomly losing 5 tokens?";
 
-        let correctAnswers;
+        const correctAnswers_1 = (gameType == "bern") ? [`Earn as many tokens as possible.`, `10`, `0`, `20%`, `20%`, `I'll only have 1 second to respond.`] : [`Earn as many tokens as possible.`, `50`, `0`, `20%`, `20%`, `I'll only have 1 second to respond.`];
 
-        if (settings.pReward[1] == 1 & round == 1) {
-            correctAnswers = [`100%`, `0%`];
-        } else if (settings.pReward[1] == 1 & round == 2) {
-            correctAnswers = [`70%`, `30%`];
-        } else if (settings.pReward[1] == .7 & round == 1) {
-            correctAnswers = [`70%`, `30%`];
-        } else if (settings.pReward[1] == .7 & round == 2) {
-            correctAnswers = [`100%`, `0%`];
-        };
-
-        let attnChk = {
+        const attnChk_1 = {
             type: jsPsychSurveyMultiChoice,
-            preamble: `<strong>Please answer the following questions about the ${firstOrSecond} round of Dot Detective.</strong>`,
+            preamble: `<strong>Please answer the following questions about the ${['first', 'second'][round]} round of Dot Detective.</strong>`,
             questions: [
                 {
-                    prompt: `For each correct response, what are your chances of earning a ${settings.bonusAmount}-cent bonus?`, 
+                    prompt: `How can you maximize your chances of earning a $100 bonus?`, 
                     name: `attnChk1`, 
-                    options: [`0%`, `30%`, `70%`, `100%`],
+                    options: [`Respond as fast as possible.`, `Earn as many tokens as possible.`],
                 },
                 {
-                    prompt: `For each incorrect response, what are your chances of earning a ${settings.bonusAmount}-cent bonus?`,
+                    prompt: prompt2, 
                     name: `attnChk2`, 
-                    options: [`0%`, `30%`, `70%`, `100%`],
+                    options: [`0`, `10`, `50`],
+                },
+                {
+                    prompt: prompt3, 
+                    name: `attnChk3`, 
+                    options: [`0`, `10`, `50`],
+                },
+                {
+                    prompt: prompt4, 
+                    name: `attnChk4`, 
+                    options: [`0%`, `10%`, `20%`],
+                },
+                {
+                    prompt: prompt5, 
+                    name: `attnChk5`, 
+                    options: [`0%`, `10%`, `20%`],
+                },
+               {
+                    prompt: `Which statement is true?`, 
+                    name: `attnChk6`, 
+                    options: [`I can take as long to respond as I like.`, `I'll only have 1 second to respond.`],
                 },
             ],
             scale_width: 500,
             on_finish: (data) => {
-                const totalErrors = dmPsych.getTotalErrors(data, correctAnswers);
+                const totalErrors = dmPsych.getTotalErrors(data, correctAnswers_1);
+                data.totalErrors = totalErrors;
+            },
+        };
+
+        const correctAnswers_2 = (settings.harderOrEasier == "more") ? [`More difficult.`] : [`Less difficult.`];
+
+        const attnChk_2 = {
+            type: jsPsychSurveyMultiChoice,
+            preamble: `<strong>Please answer the following question about the ${['first', 'second'][round]} round of Dot Detective.</strong>`,
+            questions: [
+                {
+                    prompt: `Is the second round of Dot Detective more or less difficult than the first?`, 
+                    name: `attnChk7`, 
+                    options: [`More difficult.`, `Less difficult.`],
+                },
+            ],
+            scale_width: 500,
+            on_finish: (data) => {
+                const totalErrors = dmPsych.getTotalErrors(data, correctAnswers_2);
                 data.totalErrors = totalErrors;
             },
         };
       
+        const introRound1 = {
+            type: jsPsychInstructions,
+            pages: [pages.howToEarn_streak, pages.howToEarn_bern][drawGameType],
+            show_clickable_nav: true,
+            post_trial_gap: 500,
+        };
+
+        const introRound2 = {
+            type: jsPsychInstructions,
+            pages: pages.preRound_2,
+            show_clickable_nav: true,
+            post_trial_gap: 500,
+        };
 
         const errorMessage = {
             type: jsPsychInstructions,
@@ -179,14 +349,8 @@ var exp = (function() {
           },
         };
 
-        const roundInfo = {
-            type: jsPsychInstructions,
-            pages: round == 1 ? pages.preRound_1 : pages.preRound_2,
-            show_clickable_nav: true,
-        };
-
         const instLoop = {
-          timeline: [roundInfo, attnChk, conditionalNode],
+          timeline: [[introRound1, introRound2][round], [attnChk_1, attnChk_2][round], conditionalNode],
           loop_function: () => {
             const fail = jsPsych.data.get().last(2).select('totalErrors').sum() > 0 ? true : false;
             return fail;
@@ -195,38 +359,26 @@ var exp = (function() {
 
         const readyToPlay = {
             type: jsPsychInstructions,
-            pages: [`<p>You're now ready to the ${firstOrSecond} round of Dot Detective.</p>
+            pages: [`<p>You're now ready to the ${['first', 'second'][round]} round of Dot Detective.</p>
                      <p>To begin, continue to the next screen.</p>`],
             show_clickable_nav: true,
         };
-
         this.timeline = [instLoop, readyToPlay];
     };
 
-    p.prePractice = {
+    const prePractice = {
         type: jsPsychInstructions,
         pages: pages.prePractice,
         show_clickable_nav: true,
         post_trial_gap: 500,
     };
 
-    p.postPractice = {
+    const postPractice = {
         type: jsPsychInstructions,
         pages: pages.postPractice,
         show_clickable_nav: true,
         post_trial_gap: 500,
     };
-
-    p.attnChk1 = new MakeAttnChk(settings, 1); 
-
-    p.postRound_1 = {
-        type: jsPsychInstructions,
-        pages: pages.postRound_1,
-        show_clickable_nav: true,
-        post_trial_gap: 500,
-    };
-
-    p.attnChk2 = new MakeAttnChk(settings, 2); 
 
     p.postTask = {
         type: jsPsychInstructions,
@@ -241,125 +393,216 @@ var exp = (function() {
     *
     */
 
-    let round = 0  // track current round
-    
-    const secondsLeft = dmPsych.arrayToList( (Array.from(Array(settings.breakLength).keys())).map((x) => settings.breakLength - x) )  // list of seconds remaining during breaks
-    
-    const factors = {
-        drift: settings.signal,
-        noise: [settings.noise],
-        blockType: ['test'],
-    };  // factors for making experimental design
-    
-    const factorsPractice = {
-        drift: settings.signal,
-        noise: [settings.noise],
-        blockType: ['practice'],
-    };  // factors for making practice block
-
-    const design = jsPsych.randomization.factorial(factors, 20);  // experimental design
-
-    const designPractice = jsPsych.randomization.factorial(factorsPractice, 2);  // experimental design for practice block
-
+    let currentStreak = 0;
+    let finalStreak = 0;
+    let trialIdx = 0;
+        
     // trials
-    const probe = {
-        type: jsPsychCanvasKeyboardResponse,
-        stimulus: function(c) {
-            dmPsych.dots(c, jsPsych.timelineVariable('drift'), 1, jsPsych.timelineVariable('noise'), 'normal', settings.responseKeys, settings.nDots);
-        },
-        canvas_size: [600, 800],
-        choices: settings.responseKeys,
-        prompt: '<p>On average, are there more <span style="color: red">red</span> dots or <span style="color: blue">blue</span> dots?</p><p>Press <span style="color: red">"e" for red</span> and <span style="color: blue">"i" for blue</span>.</p>',
-        data: {drift: jsPsych.timelineVariable('drift'), blockType: jsPsych.timelineVariable('blockType'), round: round, trialType: "probe"},
-        on_finish: function(data){
-            data.round = round;
-            if(jsPsych.timelineVariable('drift') > 0) {
-                data.response == "i" ? data.correct = true : data.correct = false;
-            } else {
-                data.response == "i" ? data.correct = false : data.correct = true;
-            };
-            if(data.rt > 60000) { 
-                jsPsych.data.addProperties({boot: true, bootReason: 'inactivity'});
-                jsPsych.endExperiment("The experiment has ended early due to inactivity.");
-            }
-        },
-    };
 
-    const feedback = {
-        type: jsPsychHtmlKeyboardResponse,
-        stimulus: function() {
-            let outcome = settings.pReward[round] > Math.random();
-            if(jsPsych.data.getLastTrialData().values()[0].correct) {
-                if (round > 0) {
-                    return outcome ? bonus_html : noBonus_html;
+    const MakeProbe = function(round, gameType, timed) {
+
+        const signalArray = (round == "practice") ? [settings.practiceSignal, -settings.practiceSignal] : [settings.signal[round], -settings.signal[round]];
+        const blockType = (round == "practice") ? ["practice"] : ["test"];
+        const nTrials = (round == "practice") ? settings.nPracticeTrials : settings.nTestTrials;
+
+        const factors = {
+            drift: signalArray,
+            noise: [settings.noise],
+            blockType: blockType,
+        };  // factors for making experimental design
+
+        const design = jsPsych.randomization.factorial(factors, nTrials)
+
+        const makeTokenArray = function() {
+          return jsPsych.randomization.repeat([0, 1, 2, 2, 2], 1);
+        };
+
+        let tokenArray_win = makeTokenArray();
+        let tokenArray_loss = makeTokenArray();
+
+        const getReady = {
+            type: jsPsychHtmlKeyboardResponse,
+            stimulus: function() {
+                return (trialIdx == 0 && timed) ? '<span style="font-size:70px">Get Ready!</span>' : '';
+            },
+            choices: "NO_KEYS",
+            trial_duration: function() {
+                return (trialIdx == 0 && timed) ? 3000 : 0;
+            },
+        };
+
+        const probe = {
+            type: jsPsychCanvasKeyboardResponse,
+            stimulus: function(c) {
+                dmPsych.dots(c, jsPsych.timelineVariable('drift'), 1, jsPsych.timelineVariable('noise'), 'normal', settings.responseKeys, settings.nDots);
+            },
+            canvas_size: [600, 800],
+            choices: settings.responseKeys,
+            trial_duration: function() {
+                return (timed) ? 1000 : null;
+            },
+            prompt: '<p>On average, are there more <span style="color: red">red</span> dots or <span style="color: blue">blue</span> dots?</p><p>Press <span style="color: red">"e" for red</span> and <span style="color: blue">"i" for blue</span>.</p>',
+            data: {round: round, drift: jsPsych.timelineVariable('drift'), blockType: jsPsych.timelineVariable('blockType'), round: round, trialType: "probe"},
+            on_finish: function(data){
+                if(jsPsych.timelineVariable('drift') > 0) {
+                    data.response == "i" ? data.correct = true : data.correct = false;
                 } else {
-                    return "<span style='font-size:60px'>Correct!</span>";
+                    data.response == "e" ? data.correct = true : data.correct = false;
                 };
-            } else {
-                if (round > 0) {
-                    return outcome ? noBonus_html : bonus_html;
-                } else {
-                    return "<span style='font-size:60px'>Wrong!</span>";
+                if (data.rt > 60000) { 
+                    jsPsych.data.addProperties({boot: true, bootReason: 'inactivity'});
+                    jsPsych.endExperiment("The experiment has ended early due to inactivity.");
                 }
-            };
-        },
-        choices: "NO_KEYS",
-        trial_duration: 1000,
-        data: {drift: jsPsych.timelineVariable('drift'), blockType: jsPsych.timelineVariable('blockType'), trialType: "feedback"},
-        on_finish: function(data) {
-            data.round = round;
-            (data.stimulus == "<span style='font-size:60px'>Correct!</span>" || data.stimulus == bonus_html) ? data.reward = true : data.reward = false;
-        }
-    };
+                if (data.rt == null) {
+                    data.tooSlow = true;
+                } else {
+                    data.tooSlow = false;
+                }
+                trialIdx++;
+                data.trialIdx = trialIdx;
+            },
+        };
 
-    const clock = {
-        type: jsPsychHtmlKeyboardResponse,
-        stimulus: function () {
-            let html = `<div style="font-size:20px">
-                <p>Thank you for playing Round ${round} of Dot Detective.
-                <br>Round ${round + 1} will begin in:</p>
-                <p><span style="color: red; font-size: 40px">${jsPsych.timelineVariable('toc')}</span> seconds.</p>
-            </div>`;
-            return html;
-        },
-        choices: "NO_KEYS",
-        trial_duration: 1000,
+        const feedback = {
+            type: jsPsychHtmlKeyboardResponse,
+            stimulus: function() {
+                if (jsPsych.data.getLastTrialData().values()[0].correct) {
+                    return `<div class="feedback-container"> <div class="win-text">Correct!</div></div>`;
+                } else {
+                    return `<div class="feedback-container"> <div class="loss-text">Miss!</div></div>`;
+                };
+            },
+            choices: "NO_KEYS",
+            trial_duration: 1000,
+            data: {round: round, drift: jsPsych.timelineVariable('drift'), blockType: jsPsych.timelineVariable('blockType'), trialType: "feedback"},
+            on_finish: function(data) {
+                if (jsPsych.data.get().last(2).trials[0].correct) {
+                    currentStreak++;
+                };
+
+                if (!jsPsych.data.get().last(2).trials[0].correct || trialIdx == nTrials * 2) {
+                    finalStreak = currentStreak;
+                    data.finalStreak = finalStreak;
+                    currentStreak = 0;
+                };
+                data.trialIdx = trialIdx;
+            },
+        };
+
+        const tokens = {
+            type: jsPsychHtmlKeyboardResponse,
+            stimulus: function() {
+                if (gameType == "bern") {
+                    if (jsPsych.data.get().last(2).trials[0].correct) {
+                        let bonusIdx = tokenArray_win.pop();
+                        let bonusText = ['<div class="plus-text">+5 Bonus</div>', '<div class="minus-text">-5 Loss</div>', ''][bonusIdx];
+                        return `<div class="feedback-container"> <div class="win-text"> +10 Tokens! </div>${bonusText}</div>`;
+                    } else {
+                        let bonusIdx = tokenArray_loss.pop();
+                        let bonusText = ['<div class="plus-text">+5 Bonus</div>', '<div class="minus-text">-5 Loss</div>', ''][bonusIdx];
+                        return `<div class="feedback-container"> <div class="loss-text"> +0 Tokens! </div>${bonusText}</div>`;
+                    };                    
+                } else {
+                    if (currentStreak == 0) {
+                        if (finalStreak > 0) {
+                            let bonusIdx = tokenArray_win.pop();
+                            let bonusText = ['<div class="plus-text">+5 Bonus</div>', '<div class="minus-text">-5 Loss</div>', ''][bonusIdx];
+                            return  `<div class="feedback-container"> 
+                                <div class="final-streak-text"><p>Final Streak:</p><p>${finalStreak}</p></div>
+                                <div class="win-text"> +${finalStreak * 10} Tokens</div>${bonusText}
+                                </div>` ;
+                        } else {
+                            let bonusIdx = tokenArray_loss.pop();
+                            let bonusText = ['<div class="plus-text">+5 Bonus</div>', '<div class="minus-text">-5 Loss</div>', ''][bonusIdx];
+                            return  `<div class="feedback-container"> 
+                                <div class="final-streak-text"><p>Final Streak:</p><p>${finalStreak}</p></div>
+                                <div class="loss-text"> +0 Tokens</div>${bonusText}
+                                </div>` ;                            
+                        }
+                    } else {
+                        return `<div class="feedback-container"> 
+                            <div class="streak-text"><p>Current Streak:</p><p>${currentStreak}</p></div> 
+                            </div>`;
+                    };
+                };
+            },
+            choices: "NO_KEYS",
+            trial_duration: 2000,
+            data: {round: round, drift: jsPsych.timelineVariable('drift'), blockType: jsPsych.timelineVariable('blockType'), trialType: "tokens"},
+            on_finish: function(data) {
+                if (tokenArray_win.length == 0) {
+                    tokenArray_win = makeTokenArray();
+                };
+                if (tokenArray_loss.length == 0) {
+                    tokenArray_loss = makeTokenArray();
+                };
+                data.trialIdx = trialIdx;
+            },
+        };
+
+        this.timeline = (round == "practice") ? [getReady, probe, feedback] : [getReady, probe, feedback, tokens];
+        this.randomize_order = true;
+        this.timeline_variables = design;
     };
 
     // timelines
-    const countdown = {
-        timeline: [clock],
-        timeline_variables: secondsLeft,
-        conditional_function: function () {
-            return settings.nRounds != round
-        }
+
+    const practice_untimed = new MakeProbe("practice", settings.gameType, false);
+    const practice_untimed_wrapper = {
+        timeline: [practice_untimed],
+        on_timeline_start: () => {
+            trialIdx = 0;
+            finalStreak = 0;
+            currentStreak = 0;
+        },
     };
 
-    const trial = {
-        timeline: [probe, feedback],
-        randomize_order: true,
-        timeline_variables: design,
-        on_timeline_start: function() {
-            round++
+    const practice_timed = new MakeProbe("practice", settings.gameType, true);
+    const practice_timed_wrapper = {
+        timeline: [practice_timed],
+        on_timeline_start: () => {
+            trialIdx = 0;
+            finalStreak = 0;
+            currentStreak = 0;
         },
     };
 
     p.practice = {
-        timeline: [probe, feedback],
-        randomize_order: true,
-        timeline_variables: designPractice,
+        timeline: [prePractice, practice_untimed_wrapper, postPractice, practice_timed_wrapper],
     };
 
-    p.block = {
-        timeline: [trial],
-        repetitions: 1,
-        on_timeline_finish: () => {
-            let mdn_rt = jsPsych.data.get().filter({round: round, trialType: "probe"}).select('rt').median();
+    const block1 = new MakeProbe(0, settings.gameType, true)
+    const block1_wrapper = {
+        timeline: [block1],
+        on_timeline_finish: (trial) => {
+            let mdn_rt = jsPsych.data.get().filter({round: 0, trialType: "probe", tooSlow: false}).select('rt').median();
             if (mdn_rt < 300) {
                 jsPsych.data.addProperties({boot: true, bootReason: 'tooFast'});
                 jsPsych.endExperiment("The experiment has ended early due to overly-fast responding.");
             };
-        }
+        },
+        on_timeline_start: () => {
+            trialIdx = 0;
+            finalStreak = 0;
+            currentStreak = 0;
+        },
+    };
+
+    const block2 = new MakeProbe(1, settings.gameType, true)
+    const block2_wrapper = {
+        timeline: [block2],
+        on_timeline_finish: () => {
+            let mdn_rt = jsPsych.data.get().filter({round: 1, trialType: "probe", tooSlow: false}).select('rt').median();
+            if (mdn_rt < 300) {
+                jsPsych.data.addProperties({boot: true, bootReason: 'tooFast'});
+                jsPsych.endExperiment("The experiment has ended early due to overly-fast responding.");
+            };
+        },
+        on_timeline_start: () => {
+            trialIdx = 0;
+            finalStreak = 0;
+            currentStreak = 0;
+        },
     };
 
    /*
@@ -367,6 +610,125 @@ var exp = (function() {
     *   QUESTIONS
     *
     */
+
+    // scales
+    const zeroToExtremely = ["0<br>A little", '1', '2', '3', '4', '5', '6', '7', '8', '9', "10<br>Extremely"];
+    const zeroToALot = ['0<br>A little', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10<br>A lot'];
+
+    // constructor functions
+    function MakeFlowQs(round) {
+        this.type = jsPsychSurveyLikert;
+        this.preamble = `<div style='padding-top: 50px; width: 850px; font-size:16px; color:rgb(109, 112, 114)'>
+        <p>Thank you for completing Round ${round+1} of Dot Detective!</p>
+        <p>During Round ${round+1} of Dot Detective, to what extent did you feel<br><b>immersed</b> and <b>engaged</b> in what you were doing?</p>
+        <p>Report the degree to which you felt immersed and engaged by answering the following questions.</p></div>`;
+        this.questions = [
+            {
+                prompt: `<div style='color:rgb(109, 112, 114)'>During Round ${round+1} of Dot Detective, how <strong>absorbed</strong> did you feel in what you were doing?</div>`,
+                name: `absorbed`,
+                labels: ["0<br>Not very absorbed", '1', '2', '3', '4', '5', '6', '7', '8', '9', "10<br>More absorbed than I've ever felt"],
+                required: true,
+            },
+            {
+                prompt: `<div style='color:rgb(109, 112, 114)'>During Round ${round+1} of Dot Detective, how <strong>immersed</strong> did you feel in what you were doing?</div>`,
+                name: `immersed`,
+                labels: ["0<br>Not very immersed", '1', '2', '3', '4', '5', '6', '7', '8', '9', "10<br>More immersed than I've ever felt"],
+                required: true,
+            },
+            {
+                prompt: `<div style='color:rgb(109, 112, 114)'>During Round ${round+1} of Dot Detective, how <strong>engaged</strong> did you feel in what you were doing?</div>`,
+                name: `engaged`,
+                labels: ["0<br>Not very engaged", '1', '2', '3', '4', '5', '6', '7', '8', '9', "10<br>More engaged than I've ever felt"],
+                required: true,
+            },
+            {
+                prompt: `<div style='color:rgb(109, 112, 114)'>During Round ${round+1} of Dot Detective, how <strong>engrossed</strong> did you feel in what you were doing?</div>`,
+                name: `engrossed`,
+                labels: ["0<br>Not very engrossed", '1', '2', '3', '4', '5', '6', '7', '8', '9', "10<br>More engrossed than I've ever felt"],
+                required: true,
+            },
+        ];
+        this.randomize_question_order = false;
+        this.scale_width = 700;
+        this.data = {round: round};
+        this.on_finish = (data) => {
+            dmPsych.saveSurveyData(data);
+        };
+    };
+
+    function MakeEnjoyQs(round) {
+        this.type = jsPsychSurveyLikert;
+        this.preamble = `<div style='padding-top: 50px; width: 850px; font-size:16px; color:rgb(109, 112, 114)'>
+
+        <p>Below are a few more questions about Round ${round+1} of Dot Detective.</p>
+
+        <p>Instead of asking about immersion and engagement, these questions ask about <strong>enjoyment</strong>.<br>
+        Report how much you <strong>enjoyed</strong> Round ${round+1} of Dot Detective by answering the following questions.</p></div>`;
+        this.questions = [
+            {
+                prompt: `<div style='color:rgb(109, 112, 114)'>How much did you <strong>enjoy</strong> playing Round ${round+1} of Dot Detective?</div>`,
+                name: `enjoyable`,
+                labels: zeroToALot,
+                required: true,
+            },
+            {
+                prompt: `<div style='color:rgb(109, 112, 114)'>How much did you <strong>like</strong> playing Round ${round+1} of Dot Detective?</div>`,
+                name: `like`,
+                labels: zeroToALot,
+                required: true,
+            },
+            {
+                prompt: `<div style='color:rgb(109, 112, 114)'>How much did you <strong>dislike</strong> playing Round ${round+1} of Dot Detective?</div>`,
+                name: `dislike`,
+                labels: zeroToALot,
+                required: true,
+            },
+            {
+                prompt: `<div style='color:rgb(109, 112, 114)'>How much <strong>fun</strong> did you have playing Round ${round+1} of Dot Detective?</div>`,
+                name: `fun`,
+                labels: zeroToALot,
+                required: true,
+            },
+            {
+                prompt: `<div style='color:rgb(109, 112, 114)'>How <strong>entertaining</strong> was Round ${round+1} of Dot Detective?</div>`,
+                name: `entertaining`,
+                labels: zeroToExtremely,
+                required: true,
+            },
+        ];
+        this.randomize_question_order = false;
+        this.scale_width = 700;
+        this.data = {round: round};
+        this.on_finish = (data) => {
+            dmPsych.saveSurveyData(data);
+        };
+    };
+
+    function MakeEffortQs(round) {
+        this.type = jsPsychSurveyLikert;
+        this.questions = [
+            {
+                prompt: `<div style='color:rgb(109, 112, 114)'>How <b>effortful</b> was Round ${round+1} of Dot Detective?</div>`,
+                name: `effort`,
+                labels: zeroToExtremely,
+                required: true,
+            },
+        ];
+        this.randomize_question_order = false;
+        this.scale_width = 700;
+        this.data = {round: round};
+        this.on_finish = (data) => {
+            dmPsych.saveSurveyData(data);      
+        };
+    };
+
+    p.block1 = {
+        timeline: [new MakeAttnChk(0, settings.gameType), block1_wrapper, new MakeFlowQs(0), new MakeEnjoyQs(0), new MakeEffortQs(0)],
+    };
+
+    p.block2 = {
+        timeline: [new MakeAttnChk(1, settings.gameType), block2_wrapper, new MakeFlowQs(1), new MakeEnjoyQs(1), new MakeEffortQs(1)],
+    };
 
     p.consent = {
         type: jsPsychExternalHtml,
@@ -385,516 +747,6 @@ var exp = (function() {
             show_clickable_nav: true,
             post_trial_gap: 500,
             allow_keys: false,
-        };
-
-        const genFlowScale = ['-2<br>Totally<br>Disagree', '-1<br>Disagree', '0<br>Neither agree<br>nor disagree', '1<br>Agree', '2<br>Totally<br>Agree'];
-        const flowProneScale = ['0<br>Never', '1<br>Rarely', '2<br>Sometimes', '3<br>Often', '4<br>Everyday, or almost everyday'];
-        const nfcScale = ['-2<br>Extremely<br>Uncharacteristic', '-2<br>Somewhat<br>Uncharacteristic', '0<br>Uncertain', '1<br>Somewhat<br>Characteristic', '2<br>Extremely<br>Characteristic'];
-        const curiosityScale = ['1<br>Almost<br>Never', '2<br>Sometimes', '3<br>Often', '4<br>Almost<br>Always'];
-
-        const autotelicQuestions = {
-            type: jsPsychSurveyLikert,
-            preamble:
-                `<div style='padding-top: 50px; width: 900px; font-size:16px'>
-                    <p>The following statements describe how you might perceive yourself. As every individual is unique, you may find some of the statements describe you well and some of them don't.</p>
-                    <p>Please express the extent to which you disagree or agree with each statement. We appreciate your effort.</p>
-                </div>`,
-            questions: [
-                {
-                    prompt: `I am curious about the world.`,
-                    name: `ap_1_curiosity`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `I am good at finishing projects.`,
-                    name: `ap_2_persistence`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `I worry about how people view me.`,
-                    name: `ap_3_sc_r`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `I would choose a job that I enjoy over a job that pays more.`,
-                    name: `ap_4_IM`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `I enjoy playing difficult games.`,
-                    name: `ap_5_challenge`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `I have fun doing things that others say are boring.`,
-                    name: `ap_6_boredom`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `I find it hard to choose where my attention goes.`,
-                    name: `ap_7_ctrl_r`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `I actively seek all the information I can about a new situation.`,
-                    name: `ap_8_curiosity`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `When a task becomes difficult, I keep going until I complete it.`,
-                    name: `ap_9_persistence`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `I worry about being laughed at.`,
-                    name: `ap_10_sc_r`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `I think the process of completing a task is its own reward.`,
-                    name: `ap_11_IM`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `I would prefer a job that is challenging over a job that is easy.`,
-                    name: `ap_12_challenge`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `I am able to find pleasure even in routine types of work.`,
-                    name: `ap_13_boredom`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `I get distracted easily.`,
-                    name: `ap_14_ctrl_r`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `I take time to explore my surroundings.`,
-                    name: `ap_15_curiosity`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `I complete tasks even when they are hard.`,
-                    name: `ap_16_persistence`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `I am easily affected by others' impressions of me.`,
-                    name: `ap_17_sc_r`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `I care more about enjoyment of a task than rewards associated with it.`,
-                    name: `ap_18_IM`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `I like solving complex problems.`,
-                    name: `ap_19_challenge`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `Repetitive tasks can be enjoyable.`,
-                    name: `ap_20_boredom`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `It is hard for me to stay on task.`,
-                    name: `ap_21_ctrl_r`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `Curiosity is the driving force behind much of what I do.`,
-                    name: `ap_22_curiosity`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `I keep working on a problem until I solve it.`,
-                    name: `ap_23_persistence`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `I am afraid of making the wrong impression.`,
-                    name: `ap_24_sc_r`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `What matters most to me is enjoying the things I do.`,
-                    name: `ap_25_IM`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `I make a game out of chores.`,
-                    name: `ap_26_boredom`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-            ],
-            randomize_question_order: false,
-            scale_width: 500,
-            on_finish: (data) => {
-                dmPsych.saveSurveyData(data); 
-            },
-        };
-
-        const flowGenQuestions = {
-            type: jsPsychSurveyLikert,
-            preamble:
-                `<div style='padding-top: 50px; width: 900px; font-size:16px'>
-                    <p>Please express the extent to which you disagree or agree with each statement.</p>
-                </div>`,
-            questions: [
-                {
-                    prompt: `I enjoy challenging tasks/activities that require a lot of focus.`,
-                    name: `genFlow_1`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `When I am focused on a task/activity, I quickly tend to forget my surroundings (other people, time, and place).`,
-                    name: `genFlow_2`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `I usually experience a good flow when I do something (things that are neither too easy nor too difficult for me).`,
-                    name: `genFlow_3`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `I have several different areas of interest.`,
-                    name: `genFlow_4`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `It is difficult for me to walk away from or quit a project I am currently working on.`,
-                    name: `genFlow_5`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `I become stressed in the face of difficult/challenging tasks.`,
-                    name: `genFlow_6r`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `It is difficult for me to maintain concentration over time.`,
-                    name: `genFlow_7r`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `I quickly become tired of the things I do.`,
-                    name: `genFlow_8r`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `I am usually satisfied with the results of my efforts across various tasks (I experience feelings of mastery).`,
-                    name: `genFlow_9`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `When I focus on something, I often forget to take a break.`,
-                    name: `genFlow_10`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `I get bored easily.`,
-                    name: `genFlow_11r`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `My daily tasks are exhausting rather than stimulating.`,
-                    name: `genFlow_12r`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-                {
-                    prompt: `I develop an interest for most of the things I do in life.`,
-                    name: `genFlow_13`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-            ],
-            randomize_question_order: false,
-            scale_width: 500,
-            on_finish: (data) => {
-                dmPsych.saveSurveyData(data); 
-            },
-        };
-
-        const curiosity = {
-            type: jsPsychSurveyLikert,
-            preamble:
-                `<div style='padding-top: 50px; width: 900px; font-size:16px'>
-                    <p>For each of the following statements, please describe how frequently it applies to you.</p>
-                </div>`,
-            questions: [
-                {
-                    prompt: `I enjoy exploring new ideas.`,
-                    name: `curiosity_i_1`,
-                    labels: curiosityScale,
-                    required: true,
-                },
-                {
-                    prompt: `I find it fascinating to learn new information.`,
-                    name: `curiosity_i_2`,
-                    labels: curiosityScale,
-                    required: true,
-                },
-                {
-                    prompt: `I enjoy learning about subjects that are unfamiliar to me.`,
-                    name: `curiosity_i_3`,
-                    labels: curiosityScale,
-                    required: true,
-                },
-                {
-                    prompt: `When I learn something new, I like to find out more about it.`,
-                    name: `curiosity_i_4`,
-                    labels: curiosityScale,
-                    required: true,
-                },
-                {
-                    prompt: `I enjoy discussing abstract concepts.`,
-                    name: `curiosity_i_5`,
-                    labels: curiosityScale,
-                    required: true,
-                },
-                {
-                    prompt: `Difficult conceptual problems keep me awake all night thinking about solutions.`,
-                    name: `curiosity_d_1`,
-                    labels: curiosityScale,
-                    required: true,
-                },
-                {
-                    prompt: `I will spend hours on a single problem because I just can't rest without knowing the answer.`,
-                    name: `curiosity_d_2`,
-                    labels: curiosityScale,
-                    required: true,
-                },
-                {
-                    prompt: `I feel frustrated if I can't figure out the solution to a problem, so I work even harder to solve it.`,
-                    name: `curiosity_d_3`,
-                    labels: curiosityScale,
-                    required: true,
-                },
-                {
-                    prompt: `I brood for a long time in an attempt to solve some fundamental problem.`,
-                    name: `curiosity_d_4`,
-                    labels: curiosityScale,
-                    required: true,
-                },
-                {
-                    prompt: `I work like a fiend at problems that I feel must be solved.`,
-                    name: `curiosity_d_5`,
-                    labels: curiosityScale,
-                    required: true,
-                },
-            ],
-            randomize_question_order: false,
-            scale_width: 500,
-            on_finish: (data) => {
-                dmPsych.saveSurveyData(data); 
-            },
-        };
-
-        const flowProne_1 = {
-            type: jsPsychSurveyLikert,
-            preamble:
-                `<div style='padding-top: 50px; width: 900px; font-size:16px'>
-                    <p>When you are doing household work or other routine chores (e.g. cooking, cleaning, shopping)<br>how often does it happen that...</p>
-                </div>`,
-            questions: [
-                {
-                    prompt: `...you feel bored?`,
-                    name: `flowProne_1`,
-                    labels: flowProneScale,
-                    required: true,
-                },
-                {
-                    prompt: `...it feels as if your ability to perform what you do completely matches how difficult it is?`,
-                    name: `flowProne_2`,
-                    labels: flowProneScale,
-                    required: true,
-                },
-                {
-                    prompt: `...you have a clear picture of what you want to achieve, and what you need to do to get there?`,
-                    name: `flowProne_3`,
-                    labels: flowProneScale,
-                    required: true,
-                },
-                {
-                    prompt: `...you are conscious of how well or poorly you perform what you are doing?`,
-                    name: `flowProne_4`,
-                    labels: flowProneScale,
-                    required: true,
-                },
-                {
-                    prompt: `...you feel completely concentrated?`,
-                    name: `flowProne_5`,
-                    labels: flowProneScale,
-                    required: true,
-                },
-                {
-                    prompt: `...you have a sense of complete control?`,
-                    name: `flowProne_6`,
-                    labels: flowProneScale,
-                    required: true,
-                },
-                {
-                    prompt: `...what you do feels extremely enjoyable to do?`,
-                    name: `flowProne_7`,
-                    labels: flowProneScale,
-                    required: true,
-                },
-            ],
-            randomize_question_order: false,
-            scale_width: 500,
-            on_finish: (data) => {
-                dmPsych.saveSurveyData(data); 
-            },
-        };
-
-        const flowProne_2 = {
-            type: jsPsychSurveyLikert,
-            preamble:
-                `<div style='padding-top: 50px; width: 900px; font-size:16px'>
-                    <p>When you do something in your leisure time, how often does it happen that...</p>
-                </div>`,
-            questions: [
-                {
-                    prompt: `...you feel bored?`,
-                    name: `flowProne_8`,
-                    labels: flowProneScale,
-                    required: true,
-                },
-                {
-                    prompt: `...it feels as if your ability to perform what you do completely matches how difficult it is?`,
-                    name: `flowProne_9`,
-                    labels: flowProneScale,
-                    required: true,
-                },
-                {
-                    prompt: `...you have a clear picture of what you want to achieve, and what you need to do to get there?`,
-                    name: `flowProne_10`,
-                    labels: flowProneScale,
-                    required: true,
-                },
-                {
-                    prompt: `...you are conscious of how well or poorly you perform what you are doing?`,
-                    name: `flowProne_11`,
-                    labels: flowProneScale,
-                    required: true,
-                },
-                {
-                    prompt: `...you feel completely concentrated?`,
-                    name: `flowProne_12`,
-                    labels: flowProneScale,
-                    required: true,
-                },
-                {
-                    prompt: `...you have a sense of complete control?`,
-                    name: `flowProne_13`,
-                    labels: flowProneScale,
-                    required: true,
-                },
-                {
-                    prompt: `...what you do feels extremely enjoyable to do?`,
-                    name: `flowProne_14`,
-                    labels: flowProneScale,
-                    required: true,
-                },
-            ],
-            randomize_question_order: false,
-            scale_width: 500,
-            on_finish: (data) => {
-                dmPsych.saveSurveyData(data); 
-            },
-        };
-
-        const nfc = {
-            type: jsPsychSurveyLikert,
-            preamble:
-                `<div style='padding-top: 50px; width: 900px; font-size:16px'>
-                    <p>For each statement below, indicate how well it describes you.</p>
-                </div>`,
-            questions: [
-                {
-                    prompt: `I would prefer complex to simple problems.`,
-                    name: `nfc_1`,
-                    labels: nfcScale,
-                    required: true,                    
-                },
-                {
-                    prompt: `I like to have the responsibility of handling a situation that requires a lot of thinking.`,
-                    name: `nfc_2`,
-                    labels: nfcScale,
-                    required: true,
-                },
-                {
-                    prompt: `Thinking is not my idea of fun.`,
-                    name: `nfc_3_r`,
-                    labels: nfcScale,
-                    required: true,
-                },
-                {
-                    prompt: `I would rather do something that requires little thought than something that is sure to challenge my thinking abilities.`,
-                    name: `nfc_4_r`,
-                    labels: nfcScale,
-                    required: true,
-                },
-                {
-                    prompt: `I really enjoy a task that involves coming up with new solutions to problems.`,
-                    name: `nfc_5`,
-                    labels: nfcScale,
-                    required: true,
-                },
-                {
-                    prompt: `I would prefer a task that is intellectual, difficult, and important to one that is somewhat important but does not require much thought.`,
-                    name: `nfc_6`,
-                    labels: nfcScale,
-                    required: true,
-                },
-            ],
-            randomize_question_order: false,
-            scale_width: 600,
-            on_finish: (data) => {
-                dmPsych.saveSurveyData(data); 
-            },
         };
 
         const gender = {
@@ -957,7 +809,7 @@ var exp = (function() {
         }; 
 
         const demos = {
-            timeline: [flowGenQuestions, curiosity, flowProne_1, flowProne_2, gender, age, ethnicity, english, finalWord]
+            timeline: [gender, age, ethnicity, english, finalWord]
         };
 
         return demos;
@@ -967,7 +819,7 @@ var exp = (function() {
     p.save_data = {
         type: jsPsychPipe,
         action: "save",
-        experiment_id: "T8tcrzw1fnBG",
+        experiment_id: "d3QItVVt9Zeh",
         filename: dmPsych.filename,
         data_string: ()=>jsPsych.data.get().csv()
     };
@@ -979,19 +831,7 @@ var exp = (function() {
 
 
 // create timeline
-const timeline = [
-    exp.consent, 
-    exp.prePractice, 
-    exp.practice, 
-    exp.postPractice,
-    exp.attnChk1,
-    exp.block, 
-    exp.postRound_1,
-    exp.attnChk2,
-    exp.block,
-    exp.postTask, 
-    exp.demographics, 
-    exp.save_data];
+const timeline = [exp.consent, exp.practice, exp.block1, exp.block2, exp.postTask, exp.demographics, exp.save_data];
 
 // initiate timeline
 jsPsych.run(timeline);

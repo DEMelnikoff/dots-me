@@ -567,14 +567,6 @@
     color: black;
 }
 
-.outcome-container {
-    position: relative; 
-    text-align: center; 
-    width: 800px; 
-    height: 400px;
-    color: black; 
-}
-
 .your-score {
     position: absolute; 
     font-size: 60px;
@@ -593,4 +585,158 @@
     transform: translate(-50%, -50%); 
     width: 100%;
 }
+
+.feedback-container {
+    position: relative;
+    width: 500px; 
+    height: 500px;
+    text-align: center; 
+    left: 50%;
+    transform: translate(-50%, 0%);
+}
+
+.feedback-container-inst {
+    position: relative;
+    width: 500px; 
+    height: 400px;
+    text-align: center; 
+    left: 50%;
+    transform: translate(-50%, 0%);
+}
+
+.win-text {
+    position: absolute;
+    top: 50%; 
+    left: 50%; 
+    width: 600px;
+    transform: translate(-50%, -50%); 
+    font-size: 70px;
+    font-weight: bold;
+    color: green;
+    text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000;
+}
+
+.loss-text {
+    position: absolute;
+    top: 50%; 
+    left: 50%; 
+    width: 600px;
+    transform: translate(-50%, -50%); 
+    font-size: 70px;
+    font-weight: bold;
+    color: grey;
+    text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000;
+  }
+
+.streak-text {
+    position: absolute;
+    top: 50%; 
+    left: 50%; 
+    width: 600px;
+    transform: translate(-50%, -50%); 
+    font-size: 50px;
+  }
+
+.final-streak-text {
+    position: absolute;
+    top: 15%; 
+    left: 50%; 
+    width: 600px;
+    transform: translate(-50%, -50%); 
+    font-size: 50px;
+  }
+
+.plus-text {
+    position: absolute;
+    top: 70%; 
+    left: 50%; 
+    width: 600px;
+    transform: translate(-50%, -50%); 
+    font-size: 70px;
+    font-weight: bold;
+    color: yellow;
+    text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000;
+}
+
+.minus-text {
+    position: absolute;
+    top: 70%; 
+    left: 50%; 
+    width: 600px;
+    transform: translate(-50%, -50%); 
+    font-size: 70px;
+    font-weight: bold;
+    color: red;
+    text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000;
+  }
+
+
+
+
+
+.win-text-inst {
+    position: absolute;
+    top: 50%; 
+    left: 50%; 
+    width: 600px;
+    transform: translate(-50%, -50%); 
+    font-size: 45px;
+    font-weight: bold;
+    color: green;
+    text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000;
+}
+
+.loss-text-inst {
+    position: absolute;
+    top: 50%; 
+    left: 50%; 
+    width: 600px;
+    transform: translate(-50%, -50%); 
+    font-size: 45px;
+    font-weight: bold;
+    color: grey;
+    text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000;
+  }
+
+.streak-text-inst {
+    position: absolute;
+    top: 50%; 
+    left: 50%; 
+    width: 600px;
+    transform: translate(-50%, -50%); 
+    font-size: 35px;
+  }
+
+.final-streak-text-inst {
+    position: absolute;
+    top: 20%; 
+    left: 50%; 
+    width: 600px;
+    transform: translate(-50%, -50%); 
+    font-size: 35px;
+  }
+
+.plus-text-inst {
+    position: absolute;
+    top: 70%; 
+    left: 50%; 
+    width: 600px;
+    transform: translate(-50%, -50%); 
+    font-size: 45px;
+    font-weight: bold;
+    color: yellow;
+    text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000;
+}
+
+.minus-text-inst {
+    position: absolute;
+    top: 70%; 
+    left: 50%; 
+    width: 600px;
+    transform: translate(-50%, -50%); 
+    font-size: 45px;
+    font-weight: bold;
+    color: red;
+    text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000;
+  }
 

@@ -18,7 +18,6 @@ const dmPsych = (function() {
       if(!boot) {
         document.body.innerHTML = 
         `<div align='center' style="margin: 10%">
-            <p>You earned <b>$${dollars}</b> in bonus money!</p>
             <p><b>To receive payment, please wait while we redirect you to Prolific.</b></p>
         </div>`;
         setTimeout(() => { location.href = `https://app.prolific.co/submissions/complete?cc=${completionCode}` }, 4000);
