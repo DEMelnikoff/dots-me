@@ -9,7 +9,7 @@ var exp = (function() {
     const settings = {
         responseKeys: ['e', 'i'],
         gameType: ['streak', 'bern'][drawGameType],
-        signal: [[10, 40], [40, 10]][drawSignal],
+        signal: [[10, 50], [50, 10]][drawSignal],
         harderOrEasier: ['less', 'more'][drawSignal],
         moreOrLess: ['more', 'less'][drawSignal],
         practiceSignal: 50,
