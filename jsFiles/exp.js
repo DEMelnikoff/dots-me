@@ -59,14 +59,14 @@ var exp = (function() {
             </div>`,
 
             `<div class='parent'>
-                <p>If you respond correctly before time runs out, you'll see this message:</p>
+                <p>If you respond correctly, you'll see this message:</p>
                 <div class="feedback-container-inst">
                     <div class="win-text-inst">Correct!</div>
                 </div>
             </div>`,
 
             `<div class='parent'>
-                <p>If you respond incorrectly or too slowly, you'll see this message:</p>
+                <p>If you respond incorrectly, you'll see this message:</p>
                 <div class="feedback-container-inst">
                     <div class="loss-text-inst">Miss!</div>
                 </div>
