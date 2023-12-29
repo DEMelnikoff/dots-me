@@ -12,7 +12,7 @@ var exp = (function() {
         signal: [[10, 50], [50, 10]][drawSignal],
         harderOrEasier: ['less', 'more'][drawSignal],
         moreOrLess: ['more', 'less'][drawSignal],
-        practiceSignal: 50,
+        practiceSignal: 30,
         nTestTrials: 30,
         nPracticeTrials: 5,
         noise: 10,
@@ -86,9 +86,9 @@ var exp = (function() {
         postPractice: [
             `<div class='parent'>
                 <p>Good job!</p>
-                <p>During Dot Detective, you'll only have <b>1 second</b> to respond. 
+                <p>During Dot Detective, you'll only have <b>2 seconds</b> to respond. 
                 Therefore, you'll need to detect whether there are more <span style="color: red">red dots</span> or <span style="color: blue">blue dots</span> <b>as fast as possible</b>!</p>
-                <p>To get a feel for playing Dot Detective under time pressure, you'll complete another set of practice rounds. This time, you'll have just 1 second to respond.</p>
+                <p>To get a feel for playing Dot Detective under time pressure, you'll complete another set of practice rounds. This time, you'll have just 2 seconds to respond.</p>
                 <p>Continue when you're ready to practice responding under time pressure.</p>
             </div>`],
 
@@ -264,7 +264,7 @@ var exp = (function() {
         const prompt4 = (gameType == "bern") ? "After each response, what are your chances of randomly winning 5 extra tokens?" : "After each streak, what are your chances of randomly winning 5 extra tokens?";
         const prompt5 = (gameType == "bern") ? "After each response, what are your chances of randomly losing 5 tokens?" : "After each streak, what are your chances of randomly losing 5 tokens?";
 
-        const correctAnswers_1 = (gameType == "bern") ? [`Earn as many tokens as possible.`, `10`, `0`, `20%`, `20%`, `I'll only have 1 second to respond.`] : [`Earn as many tokens as possible.`, `50`, `0`, `20%`, `20%`, `I'll only have 1 second to respond.`];
+        const correctAnswers_1 = (gameType == "bern") ? [`Earn as many tokens as possible.`, `10`, `0`, `20%`, `20%`, `I'll only have 2 seconds to respond.`] : [`Earn as many tokens as possible.`, `50`, `0`, `20%`, `20%`, `I'll only have 2 seconds to respond.`];
 
         const attnChk_1 = {
             type: jsPsychSurveyMultiChoice,
@@ -298,7 +298,7 @@ var exp = (function() {
                {
                     prompt: `Which statement is true?`, 
                     name: `attnChk6`, 
-                    options: [`I can take as long to respond as I like.`, `I'll only have 1 second to respond.`],
+                    options: [`I can take as long to respond as I like.`, `I'll only have 2 seconds to respond.`],
                 },
             ],
             scale_width: 500,
@@ -446,7 +446,7 @@ var exp = (function() {
             canvas_size: [600, 800],
             choices: settings.responseKeys,
             trial_duration: function() {
-                return (timed) ? 1000 : null;
+                return (timed) ? 2000 : null;
             },
             prompt: '<p>On average, are there more <span style="color: red">red</span> dots or <span style="color: blue">blue</span> dots?</p><p>Press <span style="color: red">"e" for red</span> and <span style="color: blue">"i" for blue</span>.</p>',
             data: {round: round, drift: jsPsych.timelineVariable('drift'), blockType: jsPsych.timelineVariable('blockType'), round: round, trialType: "probe"},
