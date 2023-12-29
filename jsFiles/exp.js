@@ -264,8 +264,8 @@ var exp = (function() {
 
     function MakeAttnChk(round, gameType) {
 
-        const prompt2 = (gameType == "bern") ? "How many tokens will you win for each cloud you activate?" : "If you fail to activate a cloud after achieving a streak of 5, how many tokens would you win?";
-        const prompt3 = (gameType == "bern") ? "How many tokens will you win for each cloud you activate?" : "If you fail to activate a cloud after achieving a streak of 0, how many tokens would you win?";
+        const prompt2 = (gameType == "bern") ? "How many tokens will you win for each cloud you activate?" : "If you activate a cloud after achieving a streak of 5, how many tokens would you win?";
+        const prompt3 = (gameType == "bern") ? "How many tokens will you win for each cloud you fail to activate?" : "If you fail to activate a cloud after achieving a streak of 0, how many tokens would you win?";
         const prompt4 = (gameType == "bern") ? "After each response, what are your chances of randomly winning 5 extra tokens?" : "After each streak, what are your chances of randomly winning 5 extra tokens?";
         const prompt5 = (gameType == "bern") ? "After each response, what are your chances of randomly losing 5 tokens?" : "After each streak, what are your chances of randomly losing 5 tokens?";
 
