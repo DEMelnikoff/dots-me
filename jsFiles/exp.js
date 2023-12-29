@@ -49,33 +49,38 @@ var exp = (function() {
             </div>`,
 
             `<div class='parent'>
-                <p>In Dot Detective, you'll see a series of grids. Each grid will contain <span style="color: red">red</span> dots and <span style="color: blue">blue</span> dots. The number of dots will change over time.</p>
-                <p>Sometimes, the average number of <span style="color: red">red</span> dots will be greater than the average number of <span style="color: blue">blue</span> dots.</p>
-                <p>Other times, the average number of <span style="color: blue">blue</span> dots will be greater than the average number of <span style="color: red">red</span> dots.</p>
-                <p><strong>Your job is to detect whether there are more <span style="color: red">red dots</span> or <span style="color: blue">blue dots</span> on average.</strong></p>
+                <p>In Dot Detective, you'll see clouds of <span style="color: red">red</span> and <span style="color: blue">blue</span> dots, like this:</p>
+                <img style="display: block; margin-left: auto; margin-right:auto" width="35% height="35% src="./img/movingDots.gif"></img>
             </div>`,
 
             `<div class='parent'>
-                <p>It can be difficult to detect whether there are more <span style="color: red">red dots</span> or <span style="color: blue">blue dots</span>.</p>
+                <p>Some clouds have more <span style="color: red">red</span> dots on average and some have more <span style="color: blue">blue</span> dots on average.
+                This cloud has more <span style="color: red">red</span> dots on average.</p>
+                <img style="display: block; margin-left: auto; margin-right:auto" width="35% height="35% src="./img/movingDots.gif"></img>
+            </div>`,
 
-                <p><strong>No matter how difficult it seems, there is always a correct answer!</strong></p>
+            `<div class='parent'>
+                <p>In Dot Detective, your goal is to "activate" each cloud of dots.
+                To activate a cloud of dots, you must correctly indicate whether the cloud has more <span style="color: red">red dots</span> or <span style="color: blue">blue dots</span> on average.</p>
+                <img style="display: block; margin-left: auto; margin-right:auto" width="35% height="35% src="./img/movingDots.gif"></img>
+            </div>`,
+
+            `<div class='parent'>
+                <p>If you activate a cloud, the dots will freeze and turn green, like this:</p>
+                <img style="display: block; margin-left: auto; margin-right:auto" width="35% height="35% src="./img/greenDots.gif"></img>
+            </div>`,
+
+            `<div class='parent'>
+                <p>If you fail to activate a cloud, the dots will disappear.</p>
+            </div>`,
+
+            `<div class='parent'>
+                <p>Sometimes it's easy to tell if a cloud has more <span style="color: red">red dots</span> or <span style="color: blue">blue dots</span>. Other times it's very challenging.</p>
+
+                <p><strong>No matter how challenging it seems, there is always a correct answer!</strong></p>
 
                 <p>Even if the number of <span style="color: red">red dots</span> or <span style="color: blue">blue dots</span>
                 appears very similar, one of the colors is more numerous on average.</p>
-            </div>`,
-
-            `<div class='parent'>
-                <p>If you respond correctly, you'll see this message:</p>
-                <div class="feedback-container-inst">
-                    <div class="win-text-inst">Correct!</div>
-                </div>
-            </div>`,
-
-            `<div class='parent'>
-                <p>If you respond incorrectly, you'll see this message:</p>
-                <div class="feedback-container-inst">
-                    <div class="loss-text-inst">Miss!</div>
-                </div>
             </div>`,
 
             `<div class='parent'>
@@ -86,9 +91,9 @@ var exp = (function() {
         postPractice: [
             `<div class='parent'>
                 <p>Good job!</p>
-                <p>During Dot Detective, you'll only have <b>2 seconds</b> to respond. 
-                Therefore, you'll need to detect whether there are more <span style="color: red">red dots</span> or <span style="color: blue">blue dots</span> <b>as fast as possible</b>!</p>
-                <p>To get a feel for playing Dot Detective under time pressure, you'll complete another set of practice rounds. This time, you'll have just 2 seconds to respond.</p>
+                <p>During Dot Detective, you'll have <b>3 seconds</b> to activate each cloud. 
+                If you take longer than 3 seconds to respond, the cloud will disappear without being activated.</p>
+                <p>To get a feel for playing Dot Detective under time pressure, you'll complete another set of practice rounds. This time, you'll have 3 seconds to respond.</p>
                 <p>Continue when you're ready to practice responding under time pressure.</p>
             </div>`],
 
@@ -101,31 +106,31 @@ var exp = (function() {
             </div>`,
 
             `<div class='parent'>
-                <p>In Dot Detective, players earn 10 tokens for every correct answer.</p>
-                <p>Players earn 0 tokens for every incorrect answer.</p>
+                <p>In Dot Detective, players earn 10 tokens for every cloud they activate.</p>
+                <p>Players earn 0 tokens whenever they fail to activate a cloud.</p>
             </div>`,
 
             `<div class='parent'>
-                <p>If you respond correctly, you'll see this message indicating that you earned 10 tokens.</p> 
+                <p>If you activate a cloud, you'll see this message indicating that you earned 10 tokens.</p> 
                 <div class="feedback-container-inst">
                     <div class="win-text-inst">+10 Tokens</div>
                 </div>
             </div>`,
 
             `<div class='parent'>
-                <p>If you respond incorrectly, you'll see this message indicating that you earned 0 tokens.</p> 
+                <p>If you fail to activate a cloud, you'll see this message indicating that you earned 0 tokens.</p> 
                 <div class="feedback-container-inst">
                     <div class="loss-text-inst">+0 Tokens</div>
                 </div>
             </div>`,
 
             `<div class='parent'>
-                <p>In addition to earning tokens through your performance, you can gain or lose tokens randomly.
-                Specifically, at the end of each round, you have a 20% chance of winning 5 extra tokens, and a 20% chance of losing 5 tokens.</p>
+                <p>In addition to earning tokens through your performance, you can gain or lose tokens randomly.</p>
+                Specifically, at the end of each round, you have a <b>20% chance of winning 5 extra tokens</b>, and a <b>20% chance of losing 5 tokens</b>.</p>
             </div>`,
 
             `<div class='parent'>
-                <p>If you see "+5 Bonus," this means you randomly won 5 extra tokens. For example, this is what you'd see if you randomly won 5 extra tokens after a correct response:</p>
+                <p>If you see "+5 Bonus," this means you randomly won 5 extra tokens. For example, this is what you'd see if you randomly won 5 extra tokens after activating a cloud:</p>
                 <div class="feedback-container-inst">
                     <div class="win-text-inst">+10 Tokens</div>
                     <div class="plus-text-inst">+5 Bonus</div>
@@ -133,7 +138,7 @@ var exp = (function() {
             </div>`,
 
             `<div class='parent'>
-                <p>This is what you'd see if you randomly won 5 extra tokens after an incorrect response:</p>
+                <p>This is what you'd see if you randomly won 5 extra tokens after failing to activate a cloud:</p>
                 <div class="feedback-container-inst">
                     <div class="loss-text-inst">+0 Tokens</div>
                     <div class="plus-text-inst">+5 Bonus</div>
@@ -141,7 +146,7 @@ var exp = (function() {
             </div>`,
 
             `<div class='parent'>
-                <p>If you see "-5 Loss," this means you randomly lost 5 tokens. For example, this is what you'd see if you randomly lost 5 tokens after a correct response:</p>
+                <p>If you see "-5 Loss," this means you randomly lost 5 tokens. For example, this is what you'd see if you randomly lost 5 tokens after activating a cloud:</p>
                 <div class="feedback-container-inst">
                     <div class="win-text-inst">+10 Tokens</div>
                     <div class="minus-text-inst">-5 Loss</div>
@@ -149,7 +154,7 @@ var exp = (function() {
             </div>`,
 
             `<div class='parent'>
-                <p>This is what you'd see if you randomly lost 5 tokens after an incorrect response:</p>
+                <p>This is what you'd see if you randomly lost 5 tokens after failing to activate a cloud:</p>
                 <div class="feedback-container-inst">
                     <div class="loss-text-inst">+0 Tokens</div>
                     <div class="minus-text-inst">-5 Loss</div>
@@ -165,25 +170,25 @@ var exp = (function() {
             </div>`,
 
             `<div class='parent'>
-                <p>In Dot Detective, players earn tokens for streaks of correct responses.</p>
-                <p>Specifically, you'll earn 10 tokens for every correct response you make in a row.</p>
-                <p>For example, a streak of 2 consecutive correct responses is worth 20 tokens, 
-                a streak of 3 consecutive correct responses is worth 30 tokens, and so on.</p>
+                <p>In Dot Detective, players earn tokens for streaks of successes.</p>
+                <p>Specifically, you'll earn 10 tokens for every consecutive cloud you activate.</p>
+                <p>For example, a streak of 2 consecutive activations is worth 20 tokens, 
+                a streak of 3 consecutive activations is worth 30 tokens, and so on.</p>
             </div>`,
 
             `<div class='parent'>
-                <p>After each correct response, you'll see the length of your current streak. For example, after three correct responses in a row, you'd see the following:
+                <p>After activating a cloud, you'll see the length of your current streak. For example, after activating three clouds in a row, you'd see the following:
                 <div class="feedback-container-inst">
                     <div class="streak-text-inst"><p>Current Streak:</p><p>3</p></div>
                 </div>
             </div>`,
 
             `<div class='parent'>
-                <p>Each time you lose, you'll see how many tokens you earned from your streak.</p> 
+                <p>Each time you fail to activate a cloud, you'll see how many tokens you earned from your streak.</p> 
             </div>`,
 
             `<div class='parent'>
-                <p>For example, if you lose after achieving a streak of three, you'll see this message indicating that you earned 30 tokens.</p> 
+                <p>For example, if you fail to activate a cloud after achieving a streak of three, you'll see this message indicating that you earned 30 tokens.</p> 
                 <div class="feedback-container-inst">
                     <div class="final-streak-text-inst"><p>Final Streak:</p><p>3</p></div>
                     <div class="win-text-inst">+30 Tokens</div>
@@ -191,7 +196,7 @@ var exp = (function() {
             </div>`,
 
             `<div class='parent'>
-                <p>If you lose after failing to start a streak, you'll see this message indicating that you earned 0 tokens.</p> 
+                <p>If you fail to activate a cloud after failing to start a streak, you'll see this message indicating that you earned 0 tokens.</p> 
                 <div class="feedback-container-inst">
                     <div class="final-streak-text-inst"><p>Final Streak:</p><p>0</p></div>
                     <div class="loss-text-inst">+0 Tokens</div>
@@ -199,8 +204,8 @@ var exp = (function() {
             </div>`,
 
             `<div class='parent'>
-                <p>In addition to earning tokens through your performance, you can gain or lose tokens randomly.
-                Specifically, at the end of each round, you have a 20% chance of winning 5 extra tokens, and a 20% chance of losing 5 tokens.</p>
+                <p>In addition to earning tokens through your performance, you can gain or lose tokens randomly.</p>
+                Specifically, at the end of each round, you have a <b>20% chance of winning 5 extra tokens</b>, and a <b>20% chance of losing 5 tokens</b>.</p>
             </div>`,
 
             `<div class='parent'>
@@ -246,8 +251,8 @@ var exp = (function() {
             </div>`,
 
             `<div class='parent'>
-                <p>The second round of Dot Detective is just like the first round, with one exception: it is designed to be ${settings.harderOrEasier} difficult.
-                Specifically, most players respond correctly ${settings.moreOrLess} often in the second version compared to the first version.</p>
+                <p>The second round of Dot Detective is just like the first round, with one exception: it is designed to be ${settings.harderOrEasier} challenging.
+                Specifically, most players activate clouds ${settings.moreOrLess} often in the second version compared to the first version.</p>
             </div>`],
 
         postTask: [
@@ -259,12 +264,12 @@ var exp = (function() {
 
     function MakeAttnChk(round, gameType) {
 
-        const prompt2 = (gameType == "bern") ? "How many tokens will you win after each correct response?" : "If you respond incorrectly after achieving a streak of 5, how many tokens would you win?";
-        const prompt3 = (gameType == "bern") ? "How many tokens will you win after each incorrect response?" : "If you respond incorrectly after achieving a streak of 0, how many tokens would you win?";
+        const prompt2 = (gameType == "bern") ? "How many tokens will you win for each cloud you activate?" : "If you fail to activate a cloud after achieving a streak of 5, how many tokens would you win?";
+        const prompt3 = (gameType == "bern") ? "How many tokens will you win for each cloud you activate?" : "If you fail to activate a cloud after achieving a streak of 0, how many tokens would you win?";
         const prompt4 = (gameType == "bern") ? "After each response, what are your chances of randomly winning 5 extra tokens?" : "After each streak, what are your chances of randomly winning 5 extra tokens?";
         const prompt5 = (gameType == "bern") ? "After each response, what are your chances of randomly losing 5 tokens?" : "After each streak, what are your chances of randomly losing 5 tokens?";
 
-        const correctAnswers_1 = (gameType == "bern") ? [`Earn as many tokens as possible.`, `10`, `0`, `20%`, `20%`, `I'll only have 2 seconds to respond.`] : [`Earn as many tokens as possible.`, `50`, `0`, `20%`, `20%`, `I'll only have 2 seconds to respond.`];
+        const correctAnswers_1 = (gameType == "bern") ? [`Earn as many tokens as possible.`, `10`, `0`, `20%`, `20%`, `I'll have 3 seconds to respond.`] : [`Earn as many tokens as possible.`, `50`, `0`, `20%`, `20%`, `I'll have 3 seconds to respond.`];
 
         const attnChk_1 = {
             type: jsPsychSurveyMultiChoice,
@@ -298,7 +303,7 @@ var exp = (function() {
                {
                     prompt: `Which statement is true?`, 
                     name: `attnChk6`, 
-                    options: [`I can take as long to respond as I like.`, `I'll only have 2 seconds to respond.`],
+                    options: [`I can take as long to respond as I like.`, `I'll have 3 seconds to respond.`],
                 },
             ],
             scale_width: 500,
@@ -308,16 +313,16 @@ var exp = (function() {
             },
         };
 
-        const correctAnswers_2 = (settings.harderOrEasier == "more") ? [`More difficult.`] : [`Less difficult.`];
+        const correctAnswers_2 = (settings.harderOrEasier == "more") ? [`More challenging.`] : [`Less challenging.`];
 
         const attnChk_2 = {
             type: jsPsychSurveyMultiChoice,
             preamble: `<strong>Please answer the following question about the ${['first', 'second'][round]} round of Dot Detective.</strong>`,
             questions: [
                 {
-                    prompt: `Is the second round of Dot Detective more or less difficult than the first?`, 
+                    prompt: `Is the second round of Dot Detective more or less challenging than the first?`, 
                     name: `attnChk7`, 
-                    options: [`More difficult.`, `Less difficult.`],
+                    options: [`More challenging.`, `Less challenging.`],
                 },
             ],
             scale_width: 500,
@@ -446,12 +451,12 @@ var exp = (function() {
             canvas_size: [600, 800],
             choices: settings.responseKeys,
             trial_duration: function() {
-                return (timed) ? 2000 : null;
+                return (timed) ? 3000 : null;
             },
             prompt: '<p>On average, are there more <span style="color: red">red</span> dots or <span style="color: blue">blue</span> dots?</p><p>Press <span style="color: red">"e" for red</span> and <span style="color: blue">"i" for blue</span>.</p>',
             data: {round: round, drift: jsPsych.timelineVariable('drift'), blockType: jsPsych.timelineVariable('blockType'), round: round, trialType: "probe"},
             on_finish: function(data){
-                if(jsPsych.timelineVariable('drift') > 0) {
+                if (jsPsych.timelineVariable('drift') > 0) {
                     data.response == "i" ? data.correct = true : data.correct = false;
                 } else {
                     data.response == "e" ? data.correct = true : data.correct = false;
@@ -467,16 +472,25 @@ var exp = (function() {
                 }
                 trialIdx++;
                 data.trialIdx = trialIdx;
+                if (data.correct) {
+                    currentStreak++;
+                };
+                if (!data.correct || trialIdx == nTrials * 2) {
+                    finalStreak = currentStreak;
+                    data.finalStreak = finalStreak;
+                    currentStreak = 0;
+                };
             },
         };
 
+        /*
         const feedback = {
             type: jsPsychHtmlKeyboardResponse,
             stimulus: function() {
                 if (jsPsych.data.getLastTrialData().values()[0].correct) {
-                    return `<div class="feedback-container"> <div class="win-text">Correct!</div></div>`;
+                    return `<div class="feedback-container"> <div class="check-text">&#x2713;</div></div>`;
                 } else {
-                    return `<div class="feedback-container"> <div class="loss-text">Miss!</div></div>`;
+                    return `<div class="feedback-container"> <div class="x-text">X</div></div>`;
                 };
             },
             prompt: '<p>On average, are there more <span style="color: red">red</span> dots or <span style="color: blue">blue</span> dots?</p><p>Press <span style="color: red">"e" for red</span> and <span style="color: blue">"i" for blue</span>.</p>',
@@ -496,12 +510,22 @@ var exp = (function() {
                 data.trialIdx = trialIdx;
             },
         };
+        */
 
         const tokens = {
             type: jsPsychHtmlKeyboardResponse,
             stimulus: function() {
+                if (round == "practice") {
+                    if (jsPsych.data.get().last(1).trials[0].correct) {      
+                        return `<div class="feedback-container"> <div class="win-text">Correct!</div></div>`;
+                    } else if (jsPsych.data.get().last(1).trials[0].tooSlow) {
+                        return `<div class="feedback-container"> <div class="loss-text">Too Slow!</div></div>`;
+                    } else {
+                        return `<div class="feedback-container"> <div class="loss-text">Wrong!</div></div>`;
+                    };              
+                };
                 if (gameType == "bern") {
-                    if (jsPsych.data.get().last(2).trials[0].correct) {
+                    if (jsPsych.data.get().last(1).trials[0].correct) {
                         let bonusIdx = tokenArray_win.pop();
                         let bonusText = ['<div class="plus-text">+5 Bonus</div>', '<div class="minus-text">-5 Loss</div>', ''][bonusIdx];
                         return `<div class="feedback-container"> <div class="win-text"> +10 Tokens </div>${bonusText}</div>`;
@@ -549,7 +573,7 @@ var exp = (function() {
             },
         };
 
-        this.timeline = (round == "practice") ? [getReady, probe, feedback] : [getReady, probe, feedback, tokens];
+        this.timeline = [getReady, probe, tokens];
         this.randomize_order = true;
         this.timeline_variables = design;
     };

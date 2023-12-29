@@ -1860,7 +1860,7 @@ const dmPsych = (function() {
     const yMax = (canvasHeight + xMax - xMin) / 2;
     const nX = 40;
     const nY = nX;
-    const rad = 2;
+    let rad = 2;
     const xSpace = ((xMax - xMin) / nX) - 2*rad;
     const ySpace = ((yMax - yMin) / nY) - 2*rad;
     const pos = {
@@ -1869,6 +1869,7 @@ const dmPsych = (function() {
     };
     const posFactorial = jsPsych.randomization.factorial(pos, 1, true);
     const idx = Array.from({length: posFactorial.xPos.length}, (item, index) => index);
+    let randIdx;
     let zig = [0, 2][Math.floor(Math.random() * 2)];
     let zigVec = [0, .5, 0, -.5];
     if (signal < 0) {
@@ -1902,26 +1903,12 @@ const dmPsych = (function() {
         return x;
     };
 
-    function randomDots() {
-        ctx.clearRect(0, 0, canvasWidth, canvasHeight); // Clean up
-        let randIdx = jsPsych.randomization.repeat(idx, 1);
-        let n1 = gaussianRandom(nDots - (signal/2), noise);
-        let n2 = gaussianRandom(nDots + (signal/2), noise);
-        for(i = 0; i < n1; i++) {
-            let xPos1 = posFactorial.xPos[randIdx[i]];
-            let yPos1 = posFactorial.yPos[randIdx[i]];
-            drawCircle(ctx, xPos1, yPos1, rad, 'red', 'red', 2);
-        };
-        for(i = n1; i < (n1 + n2); i++) {
-            let xPos2 = posFactorial.xPos[randIdx[i]];
-            let yPos2 = posFactorial.yPos[randIdx[i]];
-            drawCircle(ctx, xPos2, yPos2, rad, 'blue', 'blue', 2);
-        };
-    };
+    let color1 = 'red';
+    let color2 = 'blue';
 
-    const id = setInterval(() => {
+    const animationFunc = function() {
         ctx.clearRect(0, 0, canvasWidth, canvasHeight); // Clean up
-        let randIdx = jsPsych.randomization.repeat(idx, 1);
+        randIdx = jsPsych.randomization.repeat(idx, 1);
         if (trialType == 'zigZag') {
             n1 = nDots - (signal*zigVec[zig]*zigWeight);
             n2 = nDots + (signal*zigVec[zig]*zigWeight);
@@ -1935,23 +1922,68 @@ const dmPsych = (function() {
         for(let i = 0; i < n1; i++) {
             let xPos1 = posFactorial.xPos[randIdx[i]];
             let yPos1 = posFactorial.yPos[randIdx[i]];
-            drawCircle(ctx, xPos1, yPos1, rad, 'red', 'red', 2);
+            drawCircle(ctx, xPos1, yPos1, rad, color1, color1, 2);
         };
         for(let i = n1; i < (n1 + n2); i++) {
             let xPos2 = posFactorial.xPos[randIdx[i]];
             let yPos2 = posFactorial.yPos[randIdx[i]];
-            drawCircle(ctx, xPos2, yPos2, rad, 'blue', 'blue', 2);
+            drawCircle(ctx, xPos2, yPos2, rad, color2, color2, 2);
         };
         zig++;
         if (zig == zigVec.length) { zig = 0 };
-    }, 100);
+    };
 
+    const paintFunc = function() {
+        ctx.clearRect(0, 0, canvasWidth, canvasHeight); // Clean up
+        //let randIdx = jsPsych.randomization.repeat(idx, 1);
+        if (trialType == 'zigZag') {
+            n1 = nDots - (signal*zigVec[zig]*zigWeight);
+            n2 = nDots + (signal*zigVec[zig]*zigWeight);
+        } else if (trialType == 'flatLine') {
+            n1 = nDots;
+            n2 = nDots;
+        } else {
+           // n1 = gaussianRandom(nDots - (signal/2), noise);
+           // n2 = gaussianRandom(nDots + (signal/2), noise); 
+        };
+        for(let i = 0; i < n1; i++) {
+            let xPos1 = posFactorial.xPos[randIdx[i]];
+            let yPos1 = posFactorial.yPos[randIdx[i]];
+            drawCircle(ctx, xPos1, yPos1, rad, color1, color1, 2);
+        };
+        for(let i = n1; i < (n1 + n2); i++) {
+            let xPos2 = posFactorial.xPos[randIdx[i]];
+            let yPos2 = posFactorial.yPos[randIdx[i]];
+            drawCircle(ctx, xPos2, yPos2, rad, color2, color2, 2);
+        };
+        zig++;
+        if (zig == zigVec.length) { zig = 0 };
+    };
 
-    addEventListener("keydown", (e) => {
-        if (responseKeys.includes(e.key)) {
+    const id = setInterval(animationFunc, 100);
+
+    const endFunc = (e) => {
+        if (e.key == 'i' && signal > 0 || e.key == 'e' && signal < 0) {
+            color1 = 'green';
+            color2 = 'green';
+            rad = 3;
+            paintFunc();
             clearInterval(id);
-        }
-    })
+            removeEvent();
+        } else if (e.key == 'i' || e.key == 'e') {
+            color1 = 'white';
+            color2 = 'white';
+            paintFunc();
+            clearInterval(id);
+            removeEvent();
+        };
+    };
+
+    function removeEvent() {
+       removeEventListener('keydown', endFunc)
+    }
+
+    addEventListener("keydown", endFunc);
 
   };
 

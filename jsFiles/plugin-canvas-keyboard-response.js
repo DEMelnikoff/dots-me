@@ -100,6 +100,7 @@ var jsPsychCanvasKeyboardResponse = (function (jspsych) {
               // move on to the next trial
               this.jsPsych.finishTrial(trial_data);
           };
+          let myTimeout;
           // function to handle responses by the subject
           var after_response = (info) => {
               // after a valid response, the stimulus will have the CSS class 'responded'
@@ -111,8 +112,11 @@ var jsPsychCanvasKeyboardResponse = (function (jspsych) {
                   response = info;
               }
               if (trial.response_ends_trial) {
-                  end_trial();
-              }
+                  clearTimeout(myTimeout);
+                  setTimeout(() => {
+                      end_trial();
+                  }, 1000);
+              };
           };
           // start the response listener
           if (trial.choices != "NO_KEYS") {
@@ -132,7 +136,7 @@ var jsPsychCanvasKeyboardResponse = (function (jspsych) {
           }
           // end trial if trial_duration is set
           if (trial.trial_duration !== null) {
-              this.jsPsych.pluginAPI.setTimeout(() => {
+              myTimeout = this.jsPsych.pluginAPI.setTimeout(() => {
                   end_trial();
               }, trial.trial_duration);
           }
