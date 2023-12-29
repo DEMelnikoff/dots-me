@@ -504,11 +504,11 @@ var exp = (function() {
                     if (jsPsych.data.get().last(2).trials[0].correct) {
                         let bonusIdx = tokenArray_win.pop();
                         let bonusText = ['<div class="plus-text">+5 Bonus</div>', '<div class="minus-text">-5 Loss</div>', ''][bonusIdx];
-                        return `<div class="feedback-container"> <div class="win-text"> +10 Tokens! </div>${bonusText}</div>`;
+                        return `<div class="feedback-container"> <div class="win-text"> +10 Tokens </div>${bonusText}</div>`;
                     } else {
                         let bonusIdx = tokenArray_loss.pop();
                         let bonusText = ['<div class="plus-text">+5 Bonus</div>', '<div class="minus-text">-5 Loss</div>', ''][bonusIdx];
-                        return `<div class="feedback-container"> <div class="loss-text"> +0 Tokens! </div>${bonusText}</div>`;
+                        return `<div class="feedback-container"> <div class="loss-text"> +0 Tokens </div>${bonusText}</div>`;
                     };                    
                 } else {
                     if (currentStreak == 0) {
